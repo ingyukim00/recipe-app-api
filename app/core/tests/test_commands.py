@@ -12,14 +12,15 @@ from django.test import SimpleTestCase
 
 @patch('core.management.commands.wait_for_db.Command.check')
 class CommandTests(SimpleTestCase):
-    """TEst dommands"""
+    """Test commands"""
 
     def test_wait_for_db_ready(self, patched_check):
         """Test waiting for database if database is ready"""
-        patch_check_return_value = True
+        patched_check.return_value = True
 
         call_command('wait_for_db')
         patched_check.assert_called_once_with(database=['default'])
+
     @patch('time.sleep')
     def test_wait_for_db_delay(self,patched_sleep, patched_check):
         """Test waiting for databse when getting OperationalError"""
